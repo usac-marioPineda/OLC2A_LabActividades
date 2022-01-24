@@ -215,16 +215,17 @@ public class lexical implements java_cup.runtime.Scanner {
 		/* 2 */ YY_NO_ANCHOR,
 		/* 3 */ YY_NO_ANCHOR,
 		/* 4 */ YY_NO_ANCHOR,
-		/* 5 */ YY_NO_ANCHOR
+		/* 5 */ YY_NO_ANCHOR,
+		/* 6 */ YY_NO_ANCHOR
 	};
 	private int yy_cmap[] = unpackFromString(1,65538,
-"4:10,1,4:2,0,4:34,2,3,4:65486,5:2")[0];
+"5:9,2,1,5:2,2,5:18,2,5:15,3,4,5:65486,0:2")[0];
 
-	private int yy_rmap[] = unpackFromString(1,6,
-"0,1:5")[0];
+	private int yy_rmap[] = unpackFromString(1,7,
+"0,1:2,2,1:3")[0];
 
-	private int yy_nxt[][] = unpackFromString(2,6,
-"-1,1,2,3,4,5,-1:6");
+	private int yy_nxt[][] = unpackFromString(3,6,
+"1,2,3,4,5,6,-1:8,3,-1:3");
 
 	public java_cup.runtime.Symbol next_token ()
 		throws java.io.IOException {
@@ -271,27 +272,31 @@ public class lexical implements java_cup.runtime.Scanner {
 					yy_to_mark();
 					switch (yy_last_accept_state) {
 					case 1:
-						{yychar=1;}
+						
 					case -2:
 						break;
 					case 2:
-						{return new Symbol(sym.ZERO,yyline,yychar, yytext());}
+						{yychar=1;}
 					case -3:
 						break;
 					case 3:
-						{return new Symbol(sym.ONE,yyline,yychar, yytext());}
+						{}
 					case -4:
 						break;
 					case 4:
+						{return new Symbol(sym.ZERO,yyline,yychar, yytext());}
+					case -5:
+						break;
+					case 5:
+						{return new Symbol(sym.ONE,yyline,yychar, yytext());}
+					case -6:
+						break;
+					case 6:
 						{
     System.out.println("This is a lexical error: "+yytext()+
     ", line: "+yyline+", column: "+yychar);
 }
-					case -5:
-						break;
-					case 5:
-						
-					case -6:
+					case -7:
 						break;
 					default:
 						yy_error(YY_E_INTERNAL,false);

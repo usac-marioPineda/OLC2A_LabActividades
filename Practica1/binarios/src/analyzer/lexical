@@ -16,6 +16,7 @@ import java_cup.runtime.Symbol;
     yychar = 1;
 %init} 
 
+BLANCOS=[ \r\t]+
 ZERO=[0]
 ONE=[1]
 
@@ -23,6 +24,7 @@ ONE=[1]
 
 \n {yychar=1;}
 
+{BLANCOS} {} 
 {ZERO} {return new Symbol(sym.ZERO,yyline,yychar, yytext());}
 {ONE} {return new Symbol(sym.ONE,yyline,yychar, yytext());}
 
