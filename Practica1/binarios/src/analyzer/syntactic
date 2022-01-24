@@ -1,0 +1,47 @@
+package analyzer; 
+import java_cup.runtime.*;
+
+parser code
+{:
+    int zeros = 0;
+    int ones = 0;
+    /**
+     * Method for syntactic errors
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Syntactic error at Line " + (s.left) +
+        " Column "+s.right+ ". Unexpected component: " +s.value+"."); 
+    } 
+
+    /**
+     * Method for fatal syntactic error, impossible error recovery
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Unrecovered syntactic error at Line " + 
+        (s.left)+ " Column "+s.right+". Component " + s.value + 
+        " not cegoznized."); 
+    }
+
+    public void report(){
+        System.out.print(zeros + " veces 0, " + ones + " veces 1 ");
+    }
+:} 
+
+terminal String ZERO, ONE;
+
+non terminal Object S, L, B;
+
+start with S; 
+
+S ::= L               {: report(); :}
+;
+
+L ::= 
+    L B
+  | B
+;
+
+B ::=
+    ZERO    {: zeros++; :}
+  | ONE     {: ones++; :}
+;

@@ -1,0 +1,41 @@
+package analyzer; 
+import java_cup.runtime.*;
+
+parser code
+{:
+    String first;
+    /**
+     * Method for syntactic errors
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Syntactic error at Line " + (s.left) +
+        " Column "+s.right+ ". Unexpected component: " +s.value+"."); 
+    } 
+
+    /**
+     * Method for fatal syntactic error, impossible error recovery
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Unrecovered syntactic error at Line " + 
+        (s.left)+ " Column "+s.right+". Component " + s.value + 
+        " not cegoznized."); 
+    }  
+
+    public void write(String out) {
+        System.out.print(out);
+    }
+:} 
+
+terminal String WRD;
+
+non terminal Object S, L;
+
+start with S; 
+
+S::=L               {: write(first); :}
+;
+
+L ::= 
+   L WRD:wrd        {: write(wrd); write(" "); :}
+ | WRD:wrd          {: first = wrd; :}
+;
