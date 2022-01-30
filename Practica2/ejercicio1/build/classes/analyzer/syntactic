@@ -1,0 +1,78 @@
+package analyzer; 
+import java_cup.runtime.*;
+
+parser code
+{:
+    int zeros = 0;
+    int ones = 0;
+    /**
+     * Method for syntactic errors
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Syntactic error at Line " + (s.left) +
+        " Column "+s.right+ ". Unexpected component: " +s.value+"."); 
+    } 
+
+    /**
+     * Method for fatal syntactic error, impossible error recovery
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Unrecovered syntactic error at Line " + 
+        (s.left)+ " Column "+s.right+". Component " + s.value + 
+        " not cegoznized."); 
+    }
+
+    public void report(double answ){
+        System.out.println("Salida: " + answ);
+    }
+:} 
+
+terminal String ZERO, ONE, PUNTO;
+
+non terminal Object S;
+non terminal Nodo N, L, B;
+
+start with S; 
+
+S ::= N:NUMERO               {: report(NUMERO.val); :}
+;
+
+N ::= 
+    L:ENTERO PUNTO L:DECIMAL   {:
+                    ENTERO.val = Double.valueOf(ENTERO.ent) + DECIMAL.dec;
+                    RESULT = ENTERO;
+                :}
+  | L:ENTERO    {: 
+                    ENTERO.val = ENTERO.ent;
+                    RESULT = ENTERO;
+                :}
+;
+
+L ::=
+    L:LISTA B:NUEVO {:
+                    NUEVO.div = LISTA.div / 2;
+                    NUEVO.ent = LISTA.ent * 2 + NUEVO.ent;
+                    NUEVO.dec = LISTA.dec + (NUEVO.dec*NUEVO.div);
+                    RESULT = NUEVO;
+                :}
+  | B:PRIMERO   {: 
+                    PRIMERO.div = 0.5;
+                    RESULT = PRIMERO;
+                    PRIMERO.dec = PRIMERO.dec*PRIMERO.div;
+                :}
+;
+
+B ::=
+    ZERO        {: 
+                    Nodo nodo = new Nodo();
+                    nodo.ent = 0;
+                    nodo.dec = 0;
+                    RESULT = nodo;
+                :}
+  | ONE         {:
+                    Nodo nodo = new Nodo();
+                    nodo.ent = 1;
+                    nodo.dec = 1;
+                    RESULT = nodo;
+                :}
+;

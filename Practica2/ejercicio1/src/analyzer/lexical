@@ -1,0 +1,36 @@
+
+package analyzer;
+import java_cup.runtime.Symbol; 
+
+%% 
+%class lexical
+%public
+%line
+%char
+%cup
+%unicode
+%ignorecase
+
+%init{ 
+    yyline = 1;
+    yychar = 1;
+%init} 
+
+BLANCOS=[ \r\t]+
+ZERO=[0]
+ONE=[1]
+PUNTO=[\.]
+
+%%
+
+\n {yychar=1;}
+
+{BLANCOS} {} 
+{ZERO} {return new Symbol(sym.ZERO,yyline,yychar, yytext());}
+{ONE} {return new Symbol(sym.ONE,yyline,yychar, yytext());}
+{PUNTO} {return new Symbol(sym.PUNTO,yyline,yychar, yytext());}
+
+. {
+    System.out.println("This is a lexical error: "+yytext()+
+    ", line: "+yyline+", column: "+yychar);
+}
